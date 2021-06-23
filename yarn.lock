@@ -30,6 +30,11 @@
     ethers "^4.0.45"
     ganache-core "^2.10.2"
 
+"@pantherswap/core@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@pantherswap/core/-/core-1.0.0.tgz#f92a8d86abd46d26dec336bcd9aa2b9c9a72f01a"
+  integrity sha512-LCNRB9y+JO+koodt2oMjBpZHv9HR1VOGDPKdguwbRs4my80u0yDaQJO6t7Ds2V7sCyWUtzw+5oFBf3q0Mtc/jQ==
+
 "@resolver-engine/core@^0.3.3":
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@resolver-engine/core/-/core-0.3.3.tgz#590f77d85d45bc7ecc4e06c654f41345db6ca967"
@@ -137,11 +142,6 @@
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@uniswap/lib/-/lib-1.1.1.tgz#0afd29601846c16e5d082866cbb24a9e0758e6bc"
   integrity sha512-2yK7sLpKIT91TiS5sewHtOa7YuM8IuBXVl4GZv2jZFys4D2sY7K5vZh6MqD25TPA95Od+0YzCVq6cTF2IKrOmg==
-
-"@uniswap/v2-core@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@uniswap/v2-core/-/v2-core-1.0.0.tgz#e0fab91a7d53e8cafb5326ae4ca18351116b0844"
-  integrity sha512-BJiXrBGnN8mti7saW49MXwxDBRFiWemGetE58q8zgfnPPzQKq55ADltEILqOt6VFZ22kVeVKbF8gVd8aY3l7pA==
 
 "@web3-js/scrypt-shim@^0.1.0":
   version "0.1.0"
