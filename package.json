@@ -1,14 +1,14 @@
 {
-  "name": "@uniswap/v2-periphery",
+  "name": "@pantherswap/periphery",
   "version": "1.1.0-beta.0",
-  "description": "🎚 Peripheral smart contracts for interacting with Uniswap V2",
+  "description": "Peripheral smart contracts for interacting with PantherSwap",
   "engines": {
     "node": ">=10"
   },
-  "homepage": "https://uniswap.org",
+  "homepage": "https://pantherswap.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Uniswap/uniswap-v2-periphery"
+    "url": "https://github.com/pantherswap/pantherswap-periphery"
   },
   "files": [
     "build",
