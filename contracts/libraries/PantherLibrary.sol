@@ -21,7 +21,7 @@ library PantherLibrary {
                 hex'ff',
                 factory,
                 keccak256(abi.encodePacked(token0, token1)),
-                hex'559435cdeb6fba093ad96c685f93fa5c294e519206a10fe7739a93b2b7cd3856' // init code hash
+                hex'113d674fced4b8fe984dd1367eee56effd55120dba1e5797d04615c6ed2c9b1d' // init code hash
             ))));
     }
 
