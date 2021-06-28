@@ -1,6 +1,6 @@
 {
   "name": "@pantherswap/periphery",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Peripheral smart contracts for interacting with PantherSwap",
   "engines": {
     "node": ">=10"
