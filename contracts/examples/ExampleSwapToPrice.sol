@@ -10,7 +10,7 @@ import '../libraries/SafeMath.sol';
 import '../libraries/PantherLibrary.sol';
 
 contract ExampleSwapToPrice {
-    using SafeMath for uint256;
+    using SafeMathPanther for uint256;
 
     IPantherRouter01 public immutable router;
     address public immutable factory;

@@ -5,7 +5,7 @@ import '@pantherswap/core/contracts/interfaces/IPantherPair.sol';
 import "./SafeMath.sol";
 
 library PantherLibrary {
-    using SafeMath for uint;
+    using SafeMathPanther for uint;
 
     // returns sorted token addresses, used to handle return values from pairs sorted in this order
     function sortTokens(address tokenA, address tokenB) internal pure returns (address token0, address token1) {

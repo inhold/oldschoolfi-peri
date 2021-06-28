@@ -10,7 +10,7 @@ import './interfaces/IERC20.sol';
 import './interfaces/IWETH.sol';
 
 contract PantherRouter is IPantherRouter02 {
-    using SafeMath for uint;
+    using SafeMathPanther for uint;
 
     address public immutable override factory;
     address public immutable override WETH;

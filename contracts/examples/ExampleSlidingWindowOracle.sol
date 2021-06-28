@@ -14,7 +14,7 @@ import '../libraries/PantherOracleLibrary.sol';
 // differs from the simple oracle which must be deployed once per pair.
 contract ExampleSlidingWindowOracle {
     using FixedPoint for *;
-    using SafeMath for uint;
+    using SafeMathPanther for uint;
 
     struct Observation {
         uint timestamp;
