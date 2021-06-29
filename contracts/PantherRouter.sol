@@ -8,6 +8,7 @@ import './libraries/PantherLibrary.sol';
 import './libraries/SafeMath.sol';
 import './interfaces/IERC20.sol';
 import './interfaces/IWETH.sol';
+import './interfaces/IPantherSwapReward.sol';
 
 contract PantherRouter is IPantherRouter02 {
     using SafeMathPanther for uint;
@@ -15,14 +16,18 @@ contract PantherRouter is IPantherRouter02 {
     address public immutable override factory;
     address public immutable override WETH;
 
+    address public swapReward;
+    address public swapRewardSetter;
+
     modifier ensure(uint deadline) {
         require(deadline >= block.timestamp, 'PantherRouter: EXPIRED');
         _;
     }
 
-    constructor(address _factory, address _WETH) public {
+    constructor(address _factory, address _WETH, address _swapRewardSetter) public {
         factory = _factory;
         WETH = _WETH;
+        swapRewardSetter = _swapRewardSetter;
     }
 
     receive() external payable {
@@ -214,6 +219,9 @@ contract PantherRouter is IPantherRouter02 {
             (address input, address output) = (path[i], path[i + 1]);
             (address token0,) = PantherLibrary.sortTokens(input, output);
             uint amountOut = amounts[i + 1];
+            if (swapReward != address(0)) {
+                IPantherSwapReward(swapReward).swap(msg.sender, input, output, amountOut);
+            }
             (uint amount0Out, uint amount1Out) = input == token0 ? (uint(0), amountOut) : (amountOut, uint(0));
             address to = i < path.length - 2 ? PantherLibrary.pairFor(factory, output, path[i + 2]) : _to;
             IPantherPair(PantherLibrary.pairFor(factory, input, output)).swap(
@@ -331,6 +339,9 @@ contract PantherRouter is IPantherRouter02 {
             amountInput = IERC20(input).balanceOf(address(pair)).sub(reserveInput);
             amountOutput = PantherLibrary.getAmountOut(amountInput, reserveInput, reserveOutput);
             }
+            if (swapReward != address(0)) {
+                IPantherSwapReward(swapReward).swap(msg.sender, input, output, amountOutput);
+            }
             (uint amount0Out, uint amount1Out) = input == token0 ? (uint(0), amountOutput) : (amountOutput, uint(0));
             address to = i < path.length - 2 ? PantherLibrary.pairFor(factory, output, path[i + 2]) : _to;
             pair.swap(amount0Out, amount1Out, to, new bytes(0));
@@ -442,5 +453,16 @@ contract PantherRouter is IPantherRouter02 {
         returns (uint[] memory amounts)
     {
         return PantherLibrary.getAmountsIn(factory, amountOut, path);
+    }
+
+    // **** SWAP REWARD FUNCTIONS ****
+    function setSwapReward(address _swapReward) external {
+        require(msg.sender == swapRewardSetter, 'PantherRouter: FORBIDDEN');
+        swapReward = _swapReward;
+    }
+
+    function setSwapRewardSetter(address _swapRewardSetter) external {
+        require(msg.sender == swapRewardSetter, 'PantherRouter: FORBIDDEN');
+        swapRewardSetter = _swapRewardSetter;
     }
 }
