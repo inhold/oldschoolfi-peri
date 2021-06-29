@@ -30,10 +30,10 @@
     ethers "^4.0.45"
     ganache-core "^2.10.2"
 
-"@pantherswap/core@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@pantherswap/core/-/core-1.0.0.tgz#f92a8d86abd46d26dec336bcd9aa2b9c9a72f01a"
-  integrity sha512-LCNRB9y+JO+koodt2oMjBpZHv9HR1VOGDPKdguwbRs4my80u0yDaQJO6t7Ds2V7sCyWUtzw+5oFBf3q0Mtc/jQ==
+"@pantherswap/core@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@pantherswap/core/-/core-2.0.1.tgz#cd26ded0f21c7aeba209550db7a40eb4e0932d7a"
+  integrity sha512-aqWuSENA1I40034MCsPugs/UmwBw5I2VxYqlInOGbHUA/A6GOnAGpkuRj3IdXlSIIoCzKY3xRkFgfaiLU3vmmw==
 
 "@resolver-engine/core@^0.3.3":
   version "0.3.3"
