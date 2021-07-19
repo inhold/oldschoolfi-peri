@@ -4,16 +4,16 @@ import { deployContract } from 'ethereum-waffle'
 
 import { expandTo18Decimals } from './utilities'
 
-import PantherFactory from '@pantherswap/core/build/PantherFactory.json'
-import IPantherPair from '@pantherswap/core/build/IPantherPair.json'
+import OldSchoolFactory from '@oldschoolfi/core/build/OldSchoolFactory.json'
+import IOldSchoolPair from '@oldschoolfi/core/build/IOldSchoolPair.json'
 
 import ERC20 from '../../build/ERC20.json'
 import WETH9 from '../../build/WETH9.json'
 import UniswapV1Exchange from '../../build/UniswapV1Exchange.json'
 import UniswapV1Factory from '../../build/UniswapV1Factory.json'
-import PantherRouter01 from '../../build/PantherRouter01.json'
-import PantherMigrator from '../../build/PantherMigrator.json'
-import PantherRouter02 from '../../build/PantherRouter.json'
+import OldSchoolRouter01 from '../../build/OldSchoolRouter01.json'
+import OldSchoolMigrator from '../../build/OldSchoolMigrator.json'
+import OldSchoolRouter02 from '../../build/OldSchoolRouter02.json'
 import RouterEventEmitter from '../../build/RouterEventEmitter.json'
 
 const overrides = {
@@ -49,17 +49,19 @@ export async function v2Fixture(provider: Web3Provider, [wallet]: Wallet[]): Pro
   await factoryV1.initializeFactory((await deployContract(wallet, UniswapV1Exchange, [])).address)
 
   // deploy V2
-  const factoryV2 = await deployContract(wallet, PantherFactory, [wallet.address])
+  const factoryV2 = await deployContract(wallet, OldSchoolFactory, [wallet.address])
+
+  //console.log(await factoryV2.INIT_CODE_PAIR_HASH())
 
   // deploy routers
-  const router01 = await deployContract(wallet, PantherRouter01, [factoryV2.address, WETH.address], overrides)
-  const router02 = await deployContract(wallet, PantherRouter02, [factoryV2.address, WETH.address], overrides)
+  const router01 = await deployContract(wallet, OldSchoolRouter01, [factoryV2.address, WETH.address], overrides)
+  const router02 = await deployContract(wallet, OldSchoolRouter02, [factoryV2.address, WETH.address, wallet.address], overrides)
 
   // event emitter for testing
   const routerEventEmitter = await deployContract(wallet, RouterEventEmitter, [])
 
   // deploy migrator
-  const migrator = await deployContract(wallet, PantherMigrator, [factoryV1.address, router01.address], overrides)
+  const migrator = await deployContract(wallet, OldSchoolMigrator, [factoryV1.address, router01.address], overrides)
 
   // initialize V1
   await factoryV1.createExchange(WETHPartner.address, overrides)
@@ -71,7 +73,7 @@ export async function v2Fixture(provider: Web3Provider, [wallet]: Wallet[]): Pro
   // initialize V2
   await factoryV2.createPair(tokenA.address, tokenB.address)
   const pairAddress = await factoryV2.getPair(tokenA.address, tokenB.address)
-  const pair = new Contract(pairAddress, JSON.stringify(IPantherPair.abi), provider).connect(wallet)
+  const pair = new Contract(pairAddress, JSON.stringify(IOldSchoolPair.abi), provider).connect(wallet)
 
   const token0Address = await pair.token0()
   const token0 = tokenA.address === token0Address ? tokenA : tokenB
@@ -79,7 +81,8 @@ export async function v2Fixture(provider: Web3Provider, [wallet]: Wallet[]): Pro
 
   await factoryV2.createPair(WETH.address, WETHPartner.address)
   const WETHPairAddress = await factoryV2.getPair(WETH.address, WETHPartner.address)
-  const WETHPair = new Contract(WETHPairAddress, JSON.stringify(IPantherPair.abi), provider).connect(wallet)
+  const WETHPair = new Contract(WETHPairAddress, JSON.stringify(IOldSchoolPair.abi), provider).connect(wallet)
+
 
   return {
     token0,
@@ -90,8 +93,8 @@ export async function v2Fixture(provider: Web3Provider, [wallet]: Wallet[]): Pro
     factoryV2,
     router01,
     router02,
-    router: router02, // the default router, 01 had a minor bug
     routerEventEmitter,
+    router: router02, // the default router, 01 had a minor bug
     migrator,
     WETHExchangeV1,
     pair,

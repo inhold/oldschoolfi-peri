@@ -1,21 +1,21 @@
 {
-  "name": "@pantherswap/periphery",
+  "name": "@oldschoolfi/periphery",
   "version": "2.1.2",
-  "description": "Peripheral smart contracts for interacting with PantherSwap",
+  "description": "Peripheral smart contracts for interacting with OldSchool Finance",
   "engines": {
     "node": ">=10"
   },
-  "homepage": "https://pantherswap.com",
+  "homepage": "https://oldschool.finance",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pantherswap/pantherswap-periphery"
+    "url": "https://github.com/inhold/oldschoolfi-periphery"
   },
   "files": [
     "build",
     "contracts"
   ],
   "dependencies": {
-    "@pantherswap/core": "2.0.1",
+    "@oldschoolfi/core": "2.0.1",
     "@uniswap/lib": "1.1.1"
   },
   "devDependencies": {

@@ -1,12 +1,12 @@
 pragma solidity =0.6.6;
 
-import '@pantherswap/core/contracts/interfaces/IPantherFactory.sol';
-import '@pantherswap/core/contracts/interfaces/IPantherPair.sol';
+import '@oldschoolfi/core/contracts/interfaces/IOldSchoolFactory.sol';
+import '@oldschoolfi/core/contracts/interfaces/IOldSchoolPair.sol';
 import '@uniswap/lib/contracts/libraries/FixedPoint.sol';
 
 import '../libraries/SafeMath.sol';
-import '../libraries/PantherLibrary.sol';
-import '../libraries/PantherOracleLibrary.sol';
+import '../libraries/OldSchoolLibrary.sol';
+import '../libraries/OldSchoolOracleLibrary.sol';
 
 // sliding window oracle that uses observations collected over a window to provide moving price averages in the past
 // `windowSize` with a precision of `windowSize / granularity`
@@ -14,7 +14,7 @@ import '../libraries/PantherOracleLibrary.sol';
 // differs from the simple oracle which must be deployed once per pair.
 contract ExampleSlidingWindowOracle {
     using FixedPoint for *;
-    using SafeMathPanther for uint;
+    using SafeMathOldSchool for uint;
 
     struct Observation {
         uint timestamp;
@@ -67,7 +67,7 @@ contract ExampleSlidingWindowOracle {
     // update the cumulative price for the observation at the current timestamp. each observation is updated at most
     // once per epoch period.
     function update(address tokenA, address tokenB) external {
-        address pair = PantherLibrary.pairFor(factory, tokenA, tokenB);
+        address pair = OldSchoolLibrary.pairFor(factory, tokenA, tokenB);
 
         // populate the array with empty observations (first call only)
         for (uint i = pairObservations[pair].length; i < granularity; i++) {
@@ -81,7 +81,7 @@ contract ExampleSlidingWindowOracle {
         // we only want to commit updates once per period (i.e. windowSize / granularity)
         uint timeElapsed = block.timestamp - observation.timestamp;
         if (timeElapsed > periodSize) {
-            (uint price0Cumulative, uint price1Cumulative,) = PantherOracleLibrary.currentCumulativePrices(pair);
+            (uint price0Cumulative, uint price1Cumulative,) = OldSchoolOracleLibrary.currentCumulativePrices(pair);
             observation.timestamp = block.timestamp;
             observation.price0Cumulative = price0Cumulative;
             observation.price1Cumulative = price1Cumulative;
@@ -105,7 +105,7 @@ contract ExampleSlidingWindowOracle {
     // range [now - [windowSize, windowSize - periodSize * 2], now]
     // update must have been called for the bucket corresponding to timestamp `now - windowSize`
     function consult(address tokenIn, uint amountIn, address tokenOut) external view returns (uint amountOut) {
-        address pair = PantherLibrary.pairFor(factory, tokenIn, tokenOut);
+        address pair = OldSchoolLibrary.pairFor(factory, tokenIn, tokenOut);
         Observation storage firstObservation = getFirstObservationInWindow(pair);
 
         uint timeElapsed = block.timestamp - firstObservation.timestamp;
@@ -113,8 +113,8 @@ contract ExampleSlidingWindowOracle {
         // should never happen.
         require(timeElapsed >= windowSize - periodSize * 2, 'SlidingWindowOracle: UNEXPECTED_TIME_ELAPSED');
 
-        (uint price0Cumulative, uint price1Cumulative,) = PantherOracleLibrary.currentCumulativePrices(pair);
-        (address token0,) = PantherLibrary.sortTokens(tokenIn, tokenOut);
+        (uint price0Cumulative, uint price1Cumulative,) = OldSchoolOracleLibrary.currentCumulativePrices(pair);
+        (address token0,) = OldSchoolLibrary.sortTokens(tokenIn, tokenOut);
 
         if (token0 == tokenIn) {
             return computeAmountOut(firstObservation.price0Cumulative, price0Cumulative, timeElapsed, amountIn);

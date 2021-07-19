@@ -2,19 +2,19 @@ pragma solidity =0.6.6;
 
 import '@uniswap/lib/contracts/libraries/TransferHelper.sol';
 
-import './interfaces/IPantherMigrator.sol';
+import './interfaces/IOldSchoolMigrator.sol';
 import './interfaces/V1/IUniswapV1Factory.sol';
 import './interfaces/V1/IUniswapV1Exchange.sol';
-import './interfaces/IPantherRouter01.sol';
+import './interfaces/IOldSchoolRouter01.sol';
 import './interfaces/IERC20.sol';
 
-contract PantherMigrator is IPantherMigrator {
+contract OldSchoolMigrator is IOldSchoolMigrator {
     IUniswapV1Factory immutable factoryV1;
-    IPantherRouter01 immutable router;
+    IOldSchoolRouter01 immutable router;
 
     constructor(address _factoryV1, address _router) public {
         factoryV1 = IUniswapV1Factory(_factoryV1);
-        router = IPantherRouter01(_router);
+        router = IOldSchoolRouter01(_router);
     }
 
     // needs to accept ETH from any v1 exchange and the router. ideally this could be enforced, as in the router,

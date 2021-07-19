@@ -15,11 +15,11 @@ const overrides = {
 }
 
 enum RouterVersion {
-  PantherRouter01 = 'PantherRouter01',
-  PantherRouter02 = 'PantherRouter02'
+  OldSchoolRouter01 = 'OldSchoolRouter01',
+  OldSchoolRouter02 = 'OldSchoolRouter02'
 }
 
-describe('PantherRouter{01,02}', () => {
+describe('OldSchoolRouter{01,02}', () => {
   for (const routerVersion of Object.keys(RouterVersion)) {
     const provider = new MockProvider({
       hardfork: 'istanbul',
@@ -46,8 +46,8 @@ describe('PantherRouter{01,02}', () => {
       WETHPartner = fixture.WETHPartner
       factory = fixture.factoryV2
       router = {
-        [RouterVersion.PantherRouter01]: fixture.router01,
-        [RouterVersion.PantherRouter02]: fixture.router02
+        [RouterVersion.OldSchoolRouter01]: fixture.router01,
+        [RouterVersion.OldSchoolRouter02]: fixture.router02
       }[routerVersion as RouterVersion]
       pair = fixture.pair
       WETHPair = fixture.WETHPair
@@ -368,8 +368,8 @@ describe('PantherRouter{01,02}', () => {
           const receipt = await tx.wait()
           expect(receipt.gasUsed).to.eq(
             {
-              [RouterVersion.PantherRouter01]: 101876,
-              [RouterVersion.PantherRouter02]: 101898
+              [RouterVersion.OldSchoolRouter01]: 101876,
+              [RouterVersion.OldSchoolRouter02]: 102761
             }[routerVersion as RouterVersion]
           )
         }).retries(3)
@@ -517,8 +517,8 @@ describe('PantherRouter{01,02}', () => {
           const receipt = await tx.wait()
           expect(receipt.gasUsed).to.eq(
             {
-              [RouterVersion.PantherRouter01]: 138770,
-              [RouterVersion.PantherRouter02]: 138770
+              [RouterVersion.OldSchoolRouter01]: 138770,
+              [RouterVersion.OldSchoolRouter02]: 139633
             }[routerVersion as RouterVersion]
           )
         }).retries(3)
