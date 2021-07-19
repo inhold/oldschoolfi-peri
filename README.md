@@ -1,6 +1,10 @@
-# PantherSwap
+# OLDSCHOOL FINANCE PERIPHERY
 
-In-depth documentation on PantherSwap is available at [docs.pantherswap.comu](https://docs.pantherswap.com).
+Incluse smart contracts designed for the use of 'Core Smart Contracts'
+
+# OldSchool Finance
+
+In-depth documentation on OldSchoolFi is available at [docs.oldschool.finance](https://docs.oldschool.finance).
 
 # Local Development
 
